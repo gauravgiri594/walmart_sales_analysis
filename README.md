@@ -43,63 +43,140 @@ Insight: Identifies most popular payment methods and their volume impact
 2. Highest Rated Category by Branch
 sql
 -- Using RANK() window function to find top-performing categories
+```
 SELECT Branch, category, AVG(rating) as avg_rating
 FROM walmart GROUP BY Branch, category
+```
 -- Ranked per branch to find #1 category
 Insight: Reveals which product categories customers love most at each location
 
 3. Busiest Day per Branch
 sql
 -- Day name extraction and transaction counting
+```
 DATE_FORMAT(STR_TO_DATE(date, '%d/%m/%y'), '%W') AS day_name
 RANK() OVER (PARTITION BY Branch ORDER BY COUNT(*) DESC)
+```
 Insight: Optimizes staffing and inventory for peak days
 
 4. Rating Statistics by City & Category
 sql
+```
 SELECT City, MIN(rating), MAX(rating), AVG(rating)
 FROM walmart GROUP BY City, category
+```
 Insight: Flags underperforming city-category combinations
 
 5. Profitability Analysis
 sql
+```
 SELECT category, SUM(total) as revenue, SUM(total * profit_margin) as profit
 FROM walmart GROUP BY category
+```
 Insight: Identifies most profitable product categories
 
 6. Preferred Payment Method per Branch
 sql
 -- Two CTEs: counting transactions → ranking → filtering rank=1
-WITH cte AS (...), ranked AS (...)
-SELECT branch, payment_method FROM ranked WHERE ranke = 1
-Insight: Branch-level payment infrastructure optimization
+```
+with cte
+as
+(select 
+	branch,
+    payment_method,
+    count(*) as total_trans       								-- HERE I'M DOING COUNTING
+ from walmart
+ group by branch, payment_method
+ ),
+ ranked as (
+ select 
+	branch,
+    payment_method,
+    total_trans,															-- HERE I'M DOING RANKING
+    rank() over(partition by branch order by total_trans desc) as ranke
+from cte
+)
+select 
+	branch,
+    payment_method,
+    total_trans,
+    ranke
+from ranked													-- HERE I'M FILTERING WITH RANK 1
+where ranke = 1
+order by branch
 
+```
 7. Sales Shifts Analysis
 sql
-CASE 
-    WHEN CAST(LEFT(time,2) AS UNSIGNED) < 12 THEN 'Morning'
-    WHEN BETWEEN 12 AND 17 THEN 'Afternoon'
-    ELSE 'Evening'
-END AS shift_time
+```
+SELECT 
+	branch,
+    CASE 
+        WHEN CAST(LEFT(time, 2) AS UNSIGNED) < 12 THEN 'Morning'
+        WHEN CAST(LEFT(time, 2) AS UNSIGNED) BETWEEN 12 AND 17 THEN 'Afternoon'
+        ELSE 'Evening'
+    END AS shift_time,
+    COUNT(*)
+FROM walmart
+GROUP BY branch,shift_time
+ORDER BY Branch,shift_time, count(*) desc;
+```
 Insight: Determines most productive sales hours
 
 8. Year-over-Year Revenue Decline
 sql
--- CTEs for 2022 & 2023 revenue, then calculate decline ratio
-ROUND((lys.revenue - cys.revenue) / lys.revenue * 100, 2) AS rev_dec_ratio
-ORDER BY rev_dec_ratio DESC LIMIT 5
+```
+-- 2022 SALES
+WITH revenue_2022
+AS
+(SELECT 
+	branch,
+	SUM(total) as revenue
+from walmart
+WHERE DATE_FORMAT(STR_TO_DATE(date,'%d/%m/%y'), '%Y') = 2022
+group by branch
+),
+
+revenue_2023
+AS
+(
+SELECT 
+	branch,
+	SUM(total) as revenue
+from walmart
+WHERE DATE_FORMAT(STR_TO_DATE(date,'%d/%m/%y'), '%Y') = 2023
+group by branch
+)
+
+select 
+	lys.branch,
+    lys.revenue as last_year_revenue,
+	cys.revenue as current_year_revenue,
+    ROUND((lys.revenue - cys.revenue) / CAST(lys.revenue AS DECIMAL(10,2)) * 100, 2) AS rev_dec_ratio
+from revenue_2022 as lys
+join
+revenue_2023 as cys
+on lys.branch = cys.branch
+WHERE 
+	lys.revenue > cys.revenue 
+ORDER BY rev_dec_ratio desc 
+```
 Insight: Flags branches with concerning downward trends
 
 9. Quantity vs. Rating Correlation
 sql
+```
 SELECT quantity, ROUND(AVG(rating),2) as avg_rating, COUNT(*) as transactions
 FROM walmart GROUP BY quantity ORDER BY quantity
+```
 Insight: Reveals optimal basket sizes for customer satisfaction
 
 10. Highest Rated Payment Method
 sql
+```
 SELECT payment_method, ROUND(AVG(rating),2) as avg_rating
 FROM walmart GROUP BY payment_method ORDER BY avg_rating DESC LIMIT 1
+```
 Insight: Identifies which payment experience delights customers most
 
 📊 Sample Outputs & Insights
