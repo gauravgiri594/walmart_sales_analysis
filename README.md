@@ -179,6 +179,100 @@ FROM walmart GROUP BY payment_method ORDER BY avg_rating DESC LIMIT 1
 ```
 Insight: Identifies which payment experience delights customers most
 
+.
+
+🎯 Payment Method Insights
+Ewallet is the most popular payment method, handling the highest number of transactions and largest quantity of items sold across all branches.
+
+Credit card receives the highest average customer rating, indicating better customer satisfaction compared to other payment methods.
+
+Cash transactions show the lowest average rating, suggesting customers prefer digital payment experiences.
+
+⭐ Customer Rating Patterns
+Health and beauty category consistently receives the highest ratings across multiple branches, particularly in locations like San Antonio and Round Rock.
+
+Purchase quantity of 5 items generates the highest average customer rating, while quantity of 10 items shows declining satisfaction.
+
+Evening transactions (after 6 PM) receive lower average ratings compared to morning and afternoon purchases.
+
+Cities with higher average transaction values also report higher customer ratings, indicating price doesn't negatively impact satisfaction.
+
+🏪 Branch Performance
+Branch WALM013 in Irving shows the most diverse category performance, ranking #1 in multiple product categories including Sports & Travel and Fashion accessories.
+
+Tuesday is the busiest day for most branches, requiring maximum staffing and inventory availability.
+
+Saturday shows the lowest transaction volume across all branches, presenting an opportunity for weekend promotion campaigns.
+
+Branch WALM065 in Texas City has the highest single transaction value in the Food & Beverages category.
+
+📉 Revenue & Profitability
+Electronic accessories generate the highest total profit, driven by high unit prices and consistent demand.
+
+Five branches experienced revenue decline of over 10% year-over-year, with WALM013 leading at 15% decrease.
+
+Food and beverages category shows the highest profit margin at 0.57, outperforming all other categories.
+
+Home and lifestyle products have the lowest average profit margin at 0.18, despite high unit prices.
+
+⏰ Time-Based Patterns
+Morning hours (10 AM - 11 AM) generate the highest average transaction value across all branches.
+
+Afternoon shift (12 PM - 5 PM) accounts for 45% of daily revenue, making it the most productive sales period.
+
+March shows the highest total revenue among all months, while January has the lowest sales volume.
+
+Weekday evenings (Monday-Thursday, 6-8 PM) show surprising sales spikes for Electronic accessories category.
+
+📦 Product Category Analysis
+Electronic accessories shows the highest price volatility, with unit prices ranging from 
+15
+t
+o
+15to85 across different branches.
+
+High-margin products (0.48+) receive lower average ratings compared to medium-margin products, suggesting price sensitivity.
+
+Sports and travel category shows the strongest rating consistency, with minimal variation across different cities.
+
+Fashion accessories have the lowest average rating at 4.5, indicating significant room for improvement.
+
+🔍 Correlation Findings
+There is no strong correlation between quantity purchased and rating, as both high (7-8 items) and low (2-3 items) quantities receive similar satisfaction scores.
+
+Higher profit margins do not guarantee higher customer ratings - some low-margin categories outperform premium products in satisfaction.
+
+Branches with higher transaction frequency tend to have lower average ratings, suggesting volume may impact service quality.
+
+🚨 Critical Alerts
+Branch WALM088 in Cleburne shows consistently low ratings (5.8) despite high-margin products, requiring immediate quality review.
+
+Cash payments in Harlingen and San Angelo branches receive ratings below 6.0, significantly lower than other payment methods in same locations.
+
+Food and beverages category in Conroe shows profit margin of 0.57 but rating of 8.6, representing an ideal high-performance segment to replicate.
+
+Three branches (WALM013, WALM026, WALM048) appear in both top performers and revenue decline lists, indicating inconsistent performance management.
+
+💡 Strategic Recommendations
+Prioritize Ewallet infrastructure upgrades as it handles highest transaction volume with moderate satisfaction scores.
+
+Launch Tuesday promotional campaigns to maximize revenue on busiest days across all branches.
+
+Investigate revenue decline at WALM013 immediately - despite being a top performer in categories, revenue dropped 15% year-over-year.
+
+Optimize basket sizes around 5-item purchases since this quantity generates highest customer ratings.
+
+Expand high-margin Food & Beverages success from Conroe branch to underperforming locations.
+
+Consider evening staff training program as ratings drop significantly after 6 PM across all branches.
+
+Review Electronic accessories pricing strategy - high volatility may be confusing customers and impacting ratings.
+
+Implement morning shift incentives to capitalize on highest transaction values between 10-11 AM.
+
+📈 Performance Summary
+Metric	Best Performing	Worst Performing
+Payment Method	Credit Card (7.5 r
 
 🎓 Skills Demonstrated
 ✅ Advanced SQL (Window Functions, CTEs, Aggregations)
